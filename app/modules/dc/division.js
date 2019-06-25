@@ -19,6 +19,10 @@ var factorOf1s = [
   [3, 31, 37, 41, 271, 2906161],
 ];
 
+/*
+ * Perform mechanical division to get period, digit by digit.
+ * Also, keep track of where in the period each numerator starts.
+ */
 function divide(num, denom) {
   let digits = [];
   let numerators = {};
@@ -33,12 +37,22 @@ function divide(num, denom) {
   return { period: digits.join(''), periodNumerators: numerators };
 }
 
+/*
+ * Get periods for specified denominator.
+ * Return a hash:
+ * {
+ *   byPeriod: [{ |period|: [{ numerator, position }...]}],
+ *   byNumerator: [{ |numerator|: { period, position }}]
+ * }           
+ *
+ * This feels like it needs to be broken up.
+ */
 function getPeriods(denom) {
   let periods = {};
   for (let num = 1; num < denom; num++) {
+    // Check each numerator, and calculate the period if it hasn't already been done.
     if (!periods[num]) {
       let { period, periodNumerators } = divide(num, denom);
-            console.log('after divide', period, periodNumerators);
       Object.keys(periodNumerators).forEach(num => {
         periods[num] = { period: period, position: periodNumerators[num] };
       });
@@ -52,11 +66,13 @@ function getPeriods(denom) {
     if (!output[period]) { output[period] = []; }
     output[period].push({ numerator, position });
   }
-  console.log('output', output);
-  console.log('periods', periods);
+
   return { byPeriod: output, byNumerator: periods };
 }
 
+/*
+ * To be completed.
+ */
 function getAllOfLength(l) {
 }
 
