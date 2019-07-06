@@ -10,6 +10,8 @@ server.pre((req, res, next) => {
 });
 
 server.get('/denom/:denom', api.denom);
+server.get('/denom_byexpansion/:denom', api.denom_byExpansion);
+server.get('/denom_bynumerator/:denom', api.denom_byNumerator);
 server.get('/phi/:powers', api.phi);
 
 server.listen(8080, function() {
