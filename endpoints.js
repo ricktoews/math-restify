@@ -4,7 +4,6 @@ var phiRows = require('./app/modules/dc/phi');
 function denom(req, res, next) {
   let denom = req.params.denom;
   let payload = dc.getPeriods(denom);
-  res.contentType = 'json';
   res.send(payload.byPeriod);
   next();
 }

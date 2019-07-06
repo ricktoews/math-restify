@@ -1,5 +1,7 @@
 var BASE = 10;
 
+const Useful = require('../../../data/primes');
+
 var factorOf1s = [
   [],
   [],
@@ -20,6 +22,15 @@ var factorOf1s = [
 ];
 
 /*
+ * Determine whether number is prime.
+ *
+ */
+function isPrime(num) {
+  num = 1*num;
+  return Useful.primes.indexOf(num) !== -1;
+}
+
+/*
  * Perform mechanical division to get period, digit by digit.
  * Also, keep track of where in the period each numerator starts.
  */
@@ -27,14 +38,18 @@ function divide(num, denom) {
   let digits = [];
   let numerators = {};
   let position = 1;
-  while (!numerators[num]) {
+
+  while (num > 0 && !numerators[num]) {
     numerators[num] = position++;
     let digit = Math.floor(num * BASE / denom);
     digits.push(digit);
     num = num * BASE - digit * denom;
   }
 
-  return { period: digits.join(''), periodNumerators: numerators };
+  let beginRepeat = num > 0 ? numerators[num] : -1; // num is 0 if decimal resolves.
+  let result = { period: digits.join(''), periodNumerators: numerators, beginRepeat };
+
+  return result;
 }
 
 /*
@@ -48,13 +63,16 @@ function divide(num, denom) {
  * This feels like it needs to be broken up.
  */
 function getPeriods(denom) {
+  let prime = isPrime(denom);
   let periods = {};
   for (let num = 1; num < denom; num++) {
     // Check each numerator, and calculate the period if it hasn't already been done.
     if (!periods[num]) {
-      let { period, periodNumerators } = divide(num, denom);
-      Object.keys(periodNumerators).forEach(num => {
-        periods[num] = { period: period, position: periodNumerators[num] };
+      let { period, periodNumerators, beginRepeat } = divide(num, denom);
+      periods[num] = { period: period, position: periodNumerators[num], beginRepeat };
+      // This forEach block is only for prime numbers.
+      prime && Object.keys(periodNumerators).forEach(num => {
+        periods[num] = { period: period, position: periodNumerators[num], beginRepeat };
       });
     }
   }
@@ -63,8 +81,9 @@ function getPeriods(denom) {
     let period = periods[num].period;
     let numerator = num;
     let position = periods[num].position;
+    let beginRepeat = periods[num].beginRepeat;
     if (!output[period]) { output[period] = []; }
-    output[period].push({ numerator, position });
+    output[period].push({ numerator, position, beginRepeat });
   }
 
   return { byPeriod: output, byNumerator: periods };
