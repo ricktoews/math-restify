@@ -1,6 +1,7 @@
 var dc = require('./app/modules/dc/dc');
 var dcHelpers = require('./app/modules/dc/dc-helpers');
-var phiRows = require('./app/modules/dc/phi');
+var phiRows = require('./app/modules/phi/phi');
+
 
 function denom_byNumerator(req, res, next) {
   let denom = req.params.denom;
@@ -30,6 +31,7 @@ function phi(req, res, next) {
   res.send(payload);
   next();
 }
+
 
 exports.denom_byNumerator = denom_byNumerator;
 exports.denom_byExpansion = denom_byExpansion;
