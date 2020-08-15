@@ -1,6 +1,7 @@
 var dc = require('./app/modules/dc/dc');
 var dcHelpers = require('./app/modules/dc/dc-helpers');
 var phiRows = require('./app/modules/phi/phi');
+var pythag = require('./app/modules/pythag/pythag');
 
 
 function denom_byNumerator(req, res, next) {
@@ -32,8 +33,16 @@ function phi(req, res, next) {
   next();
 }
 
+function pythag_byCorner(req, res, next) {
+  var corner = req.params.corner;
+  var data = pythag.getByCorner(corner);
+  res.send(data);
+  next();
+}
+
 
 exports.denom_byNumerator = denom_byNumerator;
 exports.denom_byExpansion = denom_byExpansion;
 exports.denom = denom;
 exports.phi = phi;
+exports.pythag_byCorner = pythag_byCorner;

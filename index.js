@@ -20,6 +20,7 @@ server.get('/denom/:denom', api.denom);
 server.get('/denom_byexpansion/:denom', api.denom_byExpansion);
 server.get('/denom_bynumerator/:denom', api.denom_byNumerator);
 server.get('/phi/:powers', api.phi);
+server.get('/pythag/:corner', api.pythag_byCorner);
 
 
 // start listening.
