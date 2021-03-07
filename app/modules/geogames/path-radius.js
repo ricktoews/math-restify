@@ -20,7 +20,6 @@ function pathRadius(origin, destination, skip = 'omitted') {
 	var reachedDest = false;
 	var found = [];
 	for (depth = 0; !reachedDest && depth < MAX_DEPTH; depth++) {
-		console.log('Depth', depth);
 		var depthPaths = JSON.stringify(paths);
 		for (let i = 0, j = paths.length; i < j; i++){
 			let p = paths[i];

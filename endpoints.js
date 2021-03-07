@@ -45,7 +45,7 @@ function pythag_byCorner(req, res, next) {
 function geo_path(req, res, next) {
   var origin = req.params.origin;
   var destination = req.params.destination;
-  var data = geogames.getPath(origin, destination);
+  var data = geogames.pathRadius(origin, destination);
   res.send(data);
   next();
 }
