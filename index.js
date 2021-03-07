@@ -1,10 +1,25 @@
+const fs = require('fs');
 const restify = require('restify');
 const api = require('./endpoints');
-const cors = require('./cors');
+//const cors = require('./cors');
+const corsMiddleware = require('restify-cors-middleware')
+ 
+const cors = corsMiddleware({
+  preflightMaxAge: 5, //Optional
+  origins: ['http://arithmo.toewsweb.net', '*'],
+  allowHeaders: ['API-Token'],
+  exposeHeaders: ['API-Token-Expiry']
+})
 
 
+// ssl server setup
+var https_options = restify.createServer({
+  certificate: fs.readFileSync('/etc/letsencrypt/live/arithmo.toewsweb.net/fullchain.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/arithmo.toewsweb.net/privkey.pem')
+});
+var server = restify.createServer(https_options);
 // server setup
-var server = restify.createServer();
+//var server = restify.createServer();
 server.use(restify.plugins.bodyParser({ mapParams: true }));
 server.pre((req, res, next) => {
   res.contentType = 'JSON';
@@ -24,7 +39,7 @@ server.get('/pythag/:corner', api.pythag_byCorner);
 
 
 // start listening.
-server.listen(8081, function() {
+server.listen(3000, function() {
   console.log('%s listening at %s', server.name, server.url);
 });
 
