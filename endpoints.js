@@ -2,6 +2,7 @@ var dc = require('./app/modules/dc/dc');
 var dcHelpers = require('./app/modules/dc/dc-helpers');
 var phiRows = require('./app/modules/phi/phi');
 var pythag = require('./app/modules/pythag/pythag');
+var geogames = require('./app/modules/geogames/path-radius');
 
 
 function denom_byNumerator(req, res, next) {
@@ -41,8 +42,18 @@ function pythag_byCorner(req, res, next) {
 }
 
 
+function geo_path(req, res, next) {
+  var origin = req.params.origin;
+  var destination = req.params.destination;
+  var data = geogames.getPath(origin, destination);
+  res.send(data);
+  next();
+}
+
+
 exports.denom_byNumerator = denom_byNumerator;
 exports.denom_byExpansion = denom_byExpansion;
 exports.denom = denom;
 exports.phi = phi;
 exports.pythag_byCorner = pythag_byCorner;
+exports.geo_path = geo_path;

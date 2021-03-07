@@ -36,6 +36,7 @@ server.get('/denom_byexpansion/:denom', api.denom_byExpansion);
 server.get('/denom_bynumerator/:denom', api.denom_byNumerator);
 server.get('/phi/:powers', api.phi);
 server.get('/pythag/:corner', api.pythag_byCorner);
+server.get('/geopath/:origin/:destination', api.geo_path);
 
 
 // start listening.
