@@ -36,6 +36,8 @@ server.get('/denom_byexpansion/:denom', api.denom_byExpansion);
 server.get('/denom_bynumerator/:denom', api.denom_byNumerator);
 server.get('/phi/:powers', api.phi);
 server.get('/pythag/:corner', api.pythag_byCorner);
+server.get('/pythag_triples/:a', api.pythag_byA);
+server.get('/pythag_clist/:cList', api.pythag_byCList);
 
 
 // start listening.

@@ -4,6 +4,7 @@
  * so there's no need to specify the denominator in our calculations or include it in our results.
  */
 const PHI_OBJ = { sqrt5: 1, whole: 1 };
+const SQRT_5 = Math.sqrt(5);
 
 /*
  * function multPhi: Multiply two powers of Φ, given that each is (x√5 + y) / 2.
@@ -57,6 +58,53 @@ function calcPhi(n) {
   }
 }
 
+
+/*
+ * Lucas number
+ */
+function lucas(n, a, b) {
+  for (let i = 1; i <= n; i++) {
+    [a, b] = [b, a + b];
+  }
+  return a;
+}
+
+
+/*
+ * Non-recursive Fibonacci
+ */
+function fib(n) {
+  let [a, b] = [1, 1];
+  for (let i = 1; i <= n; i++) {
+    [a, b] = [b, a + b];
+  }
+  return a;
+}
+
+
+function getPhiData(max) {
+  let rows = [];
+  for (let i = 1; i <= max; i++) {
+    let [f, l] = [fib(i), lucas(i, 1, 3)];
+    let phi = `(${f} V5 + ${l} / 2`;
+    let real = (f * SQRT_5 + l) / 2
+    let fib_approx = real / SQRT_5
+    let fib_exact = Math.round(fib_approx)
+    let diff = fib_exact - fib_approx
+    let row = { 
+      "nth": i, 
+      "fraction": phi, 
+      "real": real, 
+      "fib_approx": fib_approx, 
+      "fib_exact": fib_exact, 
+      "diff": diff, 
+      "[F, F*SQRT_5, L, L/SQRT_5]": [f, f * SQRT_5, l, l/SQRT_5] 
+    }
+    rows.push(row)
+  }
+  return rows
+}
+exports.getPhiData = getPhiData;
 
 /*
  * function phiRows: Compile an array of powers of Φ, expressed as fractions with a denominator of 2.
