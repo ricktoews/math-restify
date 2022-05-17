@@ -77,7 +77,7 @@ function getTriples(cList) {
         let a = parseInt(Math.sqrt(aSquare), 10);
         let c = num;
         let b = parseInt(Math.sqrt(num**2 - aSquare), 10);
-        if (!used[a] && !used[b]) {
+        if (used.indexOf(a) === -1 && used.indexOf(b) === -1) {
           let triple = { "a": a, "b": b, "c": c };
           if (isRelativePrime(a, b)) {
             primes += 1;
