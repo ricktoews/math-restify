@@ -84,7 +84,7 @@ function fib(n) {
 
 function getPhiData(max) {
   let rows = [];
-  for (let i = 1; i <= max; i++) {
+  for (let i = 0; i <= max; i++) {
     let [f, l] = [fib(i), lucas(i, 1, 3)];
     let phi = `(${f} V5 + ${l} / 2`;
     let real = (f * SQRT_5 + l) / 2
